@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BEC Strategic Consulting — Perplexity Spaces Setup Guide for Dr. Bryan Edward Crute. Includes system prompts for BEC, MRI, SermonFlow, and NexGen Spaces, Labs prompts, 10-task schedule, and Multi-ZIP MRI workflow.">
+<meta name="author" content="Dr. Bryan Edward Crute | BEC Strategic Consulting">
+<title>BEC Perplexity Spaces Setup Guide | Dr. Bryan Edward Crute</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
+  --color-surface-offset:#f3f0ec;--color-surface-dynamic:#e6e4df;
+  --color-divider:#dcd9d5;--color-border:#d4d1ca;
+  --color-text:#28251d;--color-text-muted:#7a7974;--color-text-faint:#bab9b4;
+  --color-primary:#01696f;--color-primary-hover:#0c4e54;
+  --color-primary-highlight:#cedcd8;
+  --color-accent-1:#006494;--color-accent-2:#7a39bb;--color-accent-3:#964219;
+  --color-success:#437a22;--color-gold:#d19900;
+  --shadow-sm:0 1px 2px oklch(0.2 0.01 80/0.06);
+  --shadow-md:0 4px 12px oklch(0.2 0.01 80/0.08);
+  --shadow-lg:0 12px 32px oklch(0.2 0.01 80/0.12);
+  --radius-sm:0.375rem;--radius-md:0.5rem;--radius-lg:0.75rem;--radius-xl:1rem;--radius-full:9999px;
+  --font-display:"Instrument Serif",Georgia,serif;
+  --font-body:"Inter","Helvetica Neue",sans-serif;
+  --text-xs:clamp(0.75rem,0.7rem + 0.25vw,0.875rem);
+  --text-sm:clamp(0.875rem,0.8rem + 0.35vw,1rem);
+  --text-base:clamp(1rem,0.95rem + 0.25vw,1.125rem);
+  --text-lg:clamp(1.125rem,1rem + 0.75vw,1.5rem);
+  --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.5rem);
+  --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;
+  --space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;
+  --space-16:4rem;--space-20:5rem;
+  --transition:180ms cubic-bezier(0.16,1,0.3,1);
+}
+[data-theme="dark"]{
+  --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+  --color-surface-offset:#22211f;--color-surface-dynamic:#2d2c2a;
+  --color-divider:#262523;--color-border:#393836;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-hover:#227f8b;
+  --color-primary-highlight:#313b3b;
+  --color-accent-1:#5591c7;--color-accent-2:#a86fdf;--color-accent-3:#bb653b;
+  --color-success:#6daa45;--color-gold:#e8af34;
+  --shadow-sm:0 1px 2px oklch(0 0 0/0.2);
+  --shadow-md:0 4px 12px oklch(0 0 0/0.3);
+  --shadow-lg:0 12px 32px oklch(0 0 0/0.4);
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme]){
+  --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+  --color-surface-offset:#22211f;--color-surface-dynamic:#2d2c2a;
+  --color-divider:#262523;--color-border:#393836;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-hover:#227f8b;
+  --color-primary-highlight:#313b3b;
+  --color-accent-1:#5591c7;--color-accent-2:#a86fdf;--color-accent-3:#bb653b;
+  --color-success:#6daa45;--color-gold:#e8af34;
+}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;scroll-padding-top:5rem;}
+body{min-height:100dvh;font-family:var(--font-body);font-size:var(--text-base);color:var(--color-text);background:var(--color-bg);line-height:1.6;}
+img{display:block;max-width:100%;height:auto;}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.2;}
+p,li{text-wrap:pretty;max-width:72ch;}
+button{cursor:pointer;background:none;border:none;font:inherit;color:inherit;transition:color var(--transition),background var(--transition),box-shadow var(--transition);}
+a{color:var(--color-primary);text-decoration:none;transition:color var(--transition);}
+a:hover{color:var(--color-primary-hover);}
+::selection{background:oklch(from var(--color-primary) l c h/0.25);color:var(--color-text);}
+:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm);}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important;}}
+
+/* LAYOUT */
+.top-bar{
+  position:sticky;top:0;z-index:100;
+  background:oklch(from var(--color-bg) l c h/0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--color-border);
+  padding:var(--space-3) var(--space-6);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);
+}
+.top-bar-left{display:flex;align-items:center;gap:var(--space-3);}
+.logo{display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-sm);font-weight:600;color:var(--color-text);text-decoration:none;}
+.logo svg{flex-shrink:0;}
+.theme-toggle{
+  display:flex;align-items:center;justify-content:center;
+  width:36px;height:36px;border-radius:var(--radius-full);
+  background:var(--color-surface-offset);
+  border:1px solid var(--color-border);
+}
+.theme-toggle:hover{background:var(--color-surface-dynamic);}
+
+.page{max-width:960px;margin:0 auto;padding:var(--space-12) var(--space-6) var(--space-20);}
+.hero{margin-bottom:var(--space-12);padding-bottom:var(--space-10);border-bottom:1px solid var(--color-divider);}
+.hero-eyebrow{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.1em;color:var(--color-primary);font-weight:600;margin-bottom:var(--space-3);}
+.hero h1{font-family:var(--font-display);font-size:var(--text-2xl);color:var(--color-text);margin-bottom:var(--space-4);}
+.hero p{font-size:var(--text-lg);color:var(--color-text-muted);max-width:58ch;}
+
+/* SECTION */
+.section{margin-bottom:var(--space-16);}
+.section-header{display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-8);}
+.section-icon{
+  width:40px;height:40px;border-radius:var(--radius-md);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-size:1.1rem;
+}
+.section-title{font-size:var(--text-xl);font-family:var(--font-display);color:var(--color-text);}
+.section-subtitle{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:2px;}
+
+/* SPACE CARD */
+.space-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr));gap:var(--space-6);}
+.space-card{
+  background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-xl);overflow:hidden;
+  box-shadow:var(--shadow-sm);transition:box-shadow var(--transition);
+}
+.space-card:hover{box-shadow:var(--shadow-md);}
+.space-card-header{
+  padding:var(--space-6);border-bottom:1px solid var(--color-divider);
+  display:flex;align-items:center;gap:var(--space-4);
+}
+.space-badge{
+  width:48px;height:48px;border-radius:var(--radius-lg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+}
+.space-name{font-size:var(--text-lg);font-weight:700;color:var(--color-text);}
+.space-desc{font-size:var(--text-sm);color:var(--color-text-muted);margin-top:2px;}
+.space-card-body{padding:var(--space-6);}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:var(--space-3);margin-bottom:var(--space-6);}
+.step{display:flex;gap:var(--space-3);align-items:flex-start;}
+.step-num{
+  width:24px;height:24px;border-radius:var(--radius-full);
+  background:var(--color-primary);color:#fff;
+  font-size:var(--text-xs);font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;
+}
+.step-text{font-size:var(--text-sm);color:var(--color-text-muted);line-height:1.5;}
+.step-text strong{color:var(--color-text);font-weight:600;}
+
+/* PROMPT BOX */
+.prompt-label{font-size:var(--text-xs);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:var(--space-2);}
+.prompt-box{
+  background:var(--color-surface-offset);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-lg);
+  padding:var(--space-4) var(--space-5);
+  font-size:var(--text-sm);color:var(--color-text);
+  line-height:1.7;font-family:monospace;white-space:pre-wrap;word-break:break-word;
+  position:relative;
+}
+.copy-btn{
+  position:absolute;top:var(--space-3);right:var(--space-3);
+  padding:var(--space-1) var(--space-3);border-radius:var(--radius-md);
+  background:var(--color-surface-dynamic);border:1px solid var(--color-border);
+  font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);
+  transition:background var(--transition),color var(--transition);cursor:pointer;
+}
+.copy-btn:hover{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.copy-btn.copied{background:var(--color-success);color:#fff;border-color:var(--color-success);}
+
+/* LABS GRID */
+.labs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:var(--space-4);}
+.lab-card{
+  background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-xl);padding:var(--space-5);
+  box-shadow:var(--shadow-sm);transition:box-shadow var(--transition);
+}
+.lab-card:hover{box-shadow:var(--shadow-md);}
+.lab-num{font-size:var(--text-xs);font-weight:700;color:var(--color-primary);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:var(--space-2);}
+.lab-title{font-size:var(--text-base);font-weight:700;color:var(--color-text);margin-bottom:var(--space-2);}
+.lab-prompt-box{
+  background:var(--color-surface-offset);border:1px solid var(--color-border);
+  border-radius:var(--radius-md);padding:var(--space-3) var(--space-4);
+  font-size:var(--text-xs);font-family:monospace;color:var(--color-text-muted);
+  line-height:1.6;white-space:pre-wrap;word-break:break-word;position:relative;
+}
+.lab-copy{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:var(--space-2);padding:var(--space-1) var(--space-3);
+  border-radius:var(--radius-full);background:var(--color-surface-dynamic);
+  border:1px solid var(--color-border);font-size:var(--text-xs);font-weight:600;
+  color:var(--color-text-muted);cursor:pointer;transition:background var(--transition),color var(--transition);
+}
+.lab-copy:hover{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.lab-copy.copied{background:var(--color-success);color:#fff;border-color:var(--color-success);}
+
+/* SCHEDULE TABLE */
+.schedule-table{width:100%;border-collapse:collapse;font-size:var(--text-sm);}
+.schedule-table thead tr{background:var(--color-surface-offset);}
+.schedule-table th{
+  padding:var(--space-3) var(--space-4);text-align:left;font-weight:700;
+  font-size:var(--text-xs);text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--color-text-muted);border-bottom:2px solid var(--color-divider);
+}
+.schedule-table td{
+  padding:var(--space-3) var(--space-4);
+  border-bottom:1px solid var(--color-divider);
+  color:var(--color-text-muted);vertical-align:top;
+}
+.schedule-table td:first-child{font-weight:700;color:var(--color-text);white-space:nowrap;}
+.schedule-table td:nth-child(2){font-weight:600;color:var(--color-text);}
+.schedule-table tr:last-child td{border-bottom:none;}
+.schedule-table tr:hover td{background:var(--color-surface-offset);}
+.schedule-wrap{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);overflow:hidden;box-shadow:var(--shadow-sm);}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;padding:2px var(--space-2);border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:600;background:var(--color-primary-highlight);color:var(--color-primary);}
+.tag.blue{background:oklch(from var(--color-accent-1) l c h/0.15);color:var(--color-accent-1);}
+.tag.purple{background:oklch(from var(--color-accent-2) l c h/0.15);color:var(--color-accent-2);}
+.tag.orange{background:oklch(from var(--color-accent-3) l c h/0.15);color:var(--color-accent-3);}
+.tag.gold{background:oklch(from var(--color-gold) l c h/0.15);color:var(--color-gold);}
+
+/* TOC */
+.toc{
+  background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-xl);padding:var(--space-6);margin-bottom:var(--space-12);
+  box-shadow:var(--shadow-sm);
+}
+.toc-title{font-size:var(--text-sm);font-weight:700;color:var(--color-text);margin-bottom:var(--space-4);}
+.toc-list{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:var(--space-2);}
+.toc-list a{font-size:var(--text-sm);color:var(--color-text-muted);display:flex;align-items:center;gap:var(--space-2);padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);transition:background var(--transition),color var(--transition);}
+.toc-list a:hover{background:var(--color-surface-offset);color:var(--color-primary);}
+.toc-list a span{font-size:1rem;}
+
+/* DIVIDER */
+.section-divider{height:1px;background:var(--color-divider);margin:var(--space-12) 0;}
+
+/* Space-specific colors */
+.bec-color{background:oklch(0.45 0.12 192/0.15);}
+.bec-icon{color:#01696f;}
+.mri-color{background:oklch(0.45 0.1 250/0.15);}
+.mri-icon{color:#5591c7;}
+.sermon-color{background:oklch(0.55 0.1 310/0.15);}
+.sermon-icon{color:#a86fdf;}
+.nexgen-color{background:oklch(0.55 0.12 40/0.15);}
+.nexgen-icon{color:#bb653b;}
+
+@media(max-width:640px){
+  .top-bar{padding:var(--space-3) var(--space-4);}
+  .page{padding:var(--space-8) var(--space-4) var(--space-16);}
+  .hero h1{font-size:clamp(1.8rem,6vw,3rem);}
+  .space-grid{grid-template-columns:1fr;}
+  .labs-grid{grid-template-columns:1fr;}
+  .toc-list{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<nav class="top-bar">
+  <div class="top-bar-left">
+    <a href="#" class="logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="BEC Logo">
+        <rect width="32" height="32" rx="8" fill="currentColor" opacity="0.1"/>
+        <path d="M8 9h8c2.5 0 4 1.2 4 3.2 0 1.3-.7 2.3-1.8 2.8 1.4.5 2.3 1.6 2.3 3.1C20.5 20.4 18.7 22 16 22H8V9z" fill="currentColor"/>
+        <path d="M10.5 14.5h4.8c.9 0 1.5-.5 1.5-1.4s-.6-1.4-1.5-1.4h-4.8v2.8zM10.5 19.3h5.2c1 0 1.7-.6 1.7-1.6s-.7-1.5-1.7-1.5h-5.2v3.1z" fill="var(--color-bg)"/>
+        <circle cx="24" cy="9" r="3" fill="var(--color-primary)"/>
+      </svg>
+      <span>BEC Perplexity Guide</span>
+    </a>
+  </div>
+  <button class="theme-toggle" data-theme-toggle aria-label="Toggle dark/light mode">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </svg>
+  </button>
+</nav>
+
+<main class="page">
+
+  <!-- HERO -->
+  <header class="hero">
+    <p class="hero-eyebrow">BEC Strategic Consulting</p>
+    <h1>Perplexity Spaces<br>Setup Guide</h1>
+    <p>Your complete operating manual for 4 AI-powered Spaces, system prompts, Labs workflows, and a 10-task automation schedule — built across the B.E.C. pillars of Business, Education, and Church.</p>
+  </header>
+
+  <!-- TOC -->
+  <nav class="toc" aria-label="Table of contents">
+    <p class="toc-title">📋 Quick Navigation</p>
+    <ul class="toc-list" role="list">
+      <li><a href="#setup"><span>🗂️</span> How to Set Up Spaces</a></li>
+      <li><a href="#bec"><span>💼</span> BEC Strategic Consulting</a></li>
+      <li><a href="#mri"><span>🔬</span> MRI Research</a></li>
+      <li><a href="#sermon"><span>✝️</span> SermonFlow</a></li>
+      <li><a href="#nexgen"><span>🚀</span> NexGen</a></li>
+      <li><a href="#labs"><span>⚗️</span> Labs Prompts</a></li>
+      <li><a href="#schedule"><span>📅</span> 10-Task Schedule</a></li>
+      <li><a href="#multizip"><span>🗺️</span> Multi-ZIP Workflow</a></li>
+    </ul>
+  </nav>
+
+  <!-- SETUP STEPS -->
+  <section class="section" id="setup">
+    <div class="section-header">
+      <div class="section-icon" style="background:var(--color-primary-highlight);">🗂️</div>
+      <div>
+        <h2 class="section-title">How to Set Up Your Spaces</h2>
+        <p class="section-subtitle">Universal steps for all 4 BEC Spaces</p>
+      </div>
+    </div>
+    <div class="space-card">
+      <div class="space-card-body">
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Navigate to Spaces</strong> — Click the <strong>Spaces</strong> icon in the left-side panel on Perplexity.ai. Requires an active Pro subscription.</div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Create New Space</strong> — Click <strong>Create new Space</strong>. Give it the exact name from this guide. The Space will be private by default.</div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Add System Instructions</strong> — Click <strong>Add Instructions</strong> above the chat area. Copy and paste the system prompt for that Space from this guide.</div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Upload Source Documents</strong> — Click <strong>Add Sources</strong> on the right side. Upload relevant PDFs, docs, or reports (client briefs, demographic data, sermon outlines, etc.).</div></div>
+          <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Select AI Model</strong> — For research-heavy Spaces (MRI, BEC), use <strong>Research mode</strong>. For creative/drafting Spaces (SermonFlow, NexGen), use the default model or <strong>Labs mode</strong>.</div></div>
+          <div class="step"><div class="step-num">6</div><div class="step-text"><strong>Set Up Tasks (optional)</strong> — Click the <strong>Space Tasks</strong> button (top-right corner). Add scheduled prompts from the 10-Task Schedule section below.</div></div>
+          <div class="step"><div class="step-num">7</div><div class="step-text"><strong>Test with a Thread</strong> — Start a new Thread inside the Space to confirm the instructions are working. Ask a sample question relevant to that Space's purpose.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 4 SPACES -->
+  <section class="section" id="bec">
+    <div class="section-header">
+      <div class="section-icon bec-color">💼</div>
+      <div>
+        <h2 class="section-title">BEC Strategic Consulting</h2>
+        <p class="section-subtitle">Client strategy · frameworks · business development</p>
+      </div>
+    </div>
+    <div class="space-grid">
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-badge bec-color">💼</div>
+          <div>
+            <div class="space-name">BEC Strategic Consulting</div>
+            <div class="space-desc">Primary consulting hub for client-facing work</div>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="steps" style="margin-bottom:var(--space-4)">
+            <div class="step"><div class="step-num" style="background:var(--color-accent-1)">✓</div><div class="step-text">Upload: Client briefs, strategic frameworks, past deliverables, BEC methodology docs</div></div>
+            <div class="step"><div class="step-num" style="background:var(--color-accent-1)">✓</div><div class="step-text">Recommended sources: BEC website, industry reports, demographic data files</div></div>
+            <div class="step"><div class="step-num" style="background:var(--color-accent-1)">✓</div><div class="step-text">Model: Research mode for analysis; standard for drafting</div></div>
+          </div>
+          <p class="prompt-label">System Instruction Prompt</p>
+          <div class="prompt-box" id="prompt-bec">You are the AI research and strategy assistant for BEC Strategic Consulting, a professional services firm led by Dr. Bryan Edward Crute, a Doctorate-level Strategic Leadership consultant.
+
+Your role is to support client engagements, strategic frameworks, and business development. Always respond in a professional, consultative tone appropriate for C-suite and executive audiences.
+
+Priorities:
+- Help develop organizational diagnostic tools, strategic roadmaps, and leadership frameworks
+- Support proposal writing, executive presentations, and client deliverables
+- Assist with demographic and psychographic analysis for community and market intelligence
+- Reference the BEC MRI (Ministry/Market Radius Intelligence) methodology when relevant
+- Suggest data sources, research studies, and industry benchmarks to support recommendations
+
+Format preferences:
+- Use structured frameworks (SWOT, PESTLE, logic models) when presenting analysis
+- Default to executive summary format: insight → implication → recommendation
+- Keep responses actionable and evidence-based
+
+When uncertain about client specifics, ask one clarifying question before proceeding.
+<button class="copy-btn" onclick="copyText('prompt-bec',this)">Copy</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="mri">
+    <div class="section-header">
+      <div class="section-icon mri-color">🔬</div>
+      <div>
+        <h2 class="section-title">MRI Research</h2>
+        <p class="section-subtitle">Ministry Radius Intelligence · demographic analysis · community data</p>
+      </div>
+    </div>
+    <div class="space-grid">
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-badge mri-color">🔬</div>
+          <div>
+            <div class="space-name">MRI Research</div>
+            <div class="space-desc">Zip-code intelligence · psychographics · community mapping</div>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="steps" style="margin-bottom:var(--space-4)">
+            <div class="step"><div class="step-num" style="background:var(--color-accent-1)">✓</div><div class="step-text">Upload: MRI methodology documentation, past research reports, zip code data exports</div></div>
+            <div class="step"><div class="step-num" style="background:var(--color-accent-1)">✓</div><div class="step-text">Recommended model: Research mode with web search enabled</div></div>
+            <div class="step"><div class="step-num" style="background:var(--color-accent-1)">✓</div><div class="step-text">Add sources: Census.gov, ACS data pages, local municipality sites</div></div>
+          </div>
+          <p class="prompt-label">System Instruction Prompt</p>
+          <div class="prompt-box" id="prompt-mri">You are the ZIP Code Intelligence Engine for the MRI (Ministry Radius Intelligence) diagnostic framework developed by BEC Strategic Consulting, led by Dr. Bryan Edward Crute.
+
+Your function is to compile comprehensive, multi-layered executive intelligence reports for any given ZIP code or region using only publicly available, reputable, and current sources.
+
+When given a ZIP code, structure your full report across these 8 domains:
+
+1. DEMOGRAPHIC & SOCIOECONOMIC PROFILE
+- Population breakdown (1–3–5 mile radius where available)
+- Median income, education levels, employment patterns
+- Housing: renters vs. owners, vacancies, new developments
+- Age cohorts, racial/ethnic composition
+- Family structures and household types
+
+2. CIVIC & GOVERNANCE INTELLIGENCE
+Search: Local Chamber of Commerce, Mayor's Office, City/Town Council minutes, County Commission minutes, planning documents, public safety reports, community development strategies. Extract: economic priorities, zoning/development signals, infrastructure projects, political climate, community tensions, faith-based partnerships.
+
+3. BUSINESS & ECONOMIC DEVELOPMENT SIGNALS
+- Top employers, emerging industries, workforce needs
+- Small business climate, commercial real estate changes
+- Key business migrations in/out
+- Downtown/rural revitalization efforts
+
+4. EDUCATIONAL LANDSCAPE
+- Public school performance and challenges
+- Private/charter school presence
+- School board issues
+- Youth challenges, risks, and opportunities
+
+5. CULTURAL, SOCIAL & COMMUNITY DYNAMICS
+- Community identity and values
+- Social cohesion or fragmentation
+- Nonprofit presence and service gaps
+- Faith community patterns and ministry landscape
+- Local causes gaining visibility
+
+6. BLIGHT, NEEDS & VULNERABILITY INDICATORS
+- Housing instability, poverty concentration
+- Transportation gaps, food insecurity
+- Healthcare access, senior population needs
+- Underserved groups and populations
+
+7. DIRECTIONAL INTELLIGENCE (N/E/W/S Sub-Regions)
+Where possible, describe sub-regions by: identity, economic direction, demographic character, risks/opportunities, community reputation.
+
+8. EXTERNAL REPORTS, GRANTS & CIVIC PRIORITIES
+- Grant opportunities aligned with local needs
+- Federal/state/local funding priorities for the ZIP
+- Regional initiatives
+- Faith-based partnership possibilities
+
+Source preferences: Census Bureau (ACS), local government sites, Chamber of Commerce, Pew Research, municipal planning docs, verified nonprofit databases. Always cite sources with publication year. Flag data older than 3 years as potentially outdated.
+
+Output format:
+- Use an executive summary at the top (3–5 bullet key findings)
+- Use tables for comparative demographic data
+- Add a "So What?" ministry/business implication after each domain section
+- Close with a Ministry Opportunity Score (High/Medium/Low) with a one-paragraph rationale
+
+Maintain a research-neutral tone. Surface facts and patterns — strategic interpretation belongs to the consultant.
+<button class="copy-btn" onclick="copyText('prompt-mri',this)">Copy</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="sermon">
+    <div class="section-header">
+      <div class="section-icon sermon-color">✝️</div>
+      <div>
+        <h2 class="section-title">SermonFlow</h2>
+        <p class="section-subtitle">Digital products brand · Interactive Sermon Outline System · biblical scholarship</p>
+      </div>
+    </div>
+    <div class="space-grid">
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-badge sermon-color">✝️</div>
+          <div>
+            <div class="space-name">SermonFlow</div>
+            <div class="space-desc">Sermon development · Interactive Outline System · digital church engagement</div>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="steps" style="margin-bottom:var(--space-4)">
+            <div class="step"><div class="step-num" style="background:var(--color-accent-2)">✓</div><div class="step-text">Upload: Previous sermon outlines, sermon series notes, theological reference docs</div></div>
+            <div class="step"><div class="step-num" style="background:var(--color-accent-2)">✓</div><div class="step-text">Add sources: biblehub.com, blueletterbible.org, your preferred commentary sites</div></div>
+            <div class="step"><div class="step-num" style="background:var(--color-accent-2)">✓</div><div class="step-text">Model: Standard mode; use Labs for full sermon manuscript drafting</div></div>
+          </div>
+          <p class="prompt-label">System Instruction Prompt</p>
+          <div class="prompt-box" id="prompt-sermon">You are the research, content development, and digital product assistant for SermonFlow — the digital products brand of BEC Strategic Consulting, led by Dr. Bryan Edward Crute, pastor and Doctorate-level Strategic Leadership consultant with 23+ years of pastoral ministry experience.
+
+SermonFlow's flagship product is the Interactive Sermon Outline System — a proprietary dual-mode HTML application that transforms traditional paper sermon outlines into mobile-first, interactive web experiences. The two modes are:
+- Follow Along Mode: fill-in-the-blank engagement during live Sunday service
+- Study Review Mode: tap-to-reveal answers, time-gated until after service for midweek devotional use
+
+Target clients: Black and Brown senior pastors leading congregations of 50–1,500 members who want to engage younger (18–35) members digitally without requiring an app download.
+
+Your dual role in this Space:
+
+ROLE 1 — SERMON CONTENT DEVELOPMENT
+Support the full sermon preparation pipeline for Dr. Crute and client pastors:
+1. Exegesis: Analyze scripture in original Greek/Hebrew context, historical background, and literary structure
+2. Theology: Surface doctrinal connections, cross-references, and thematic development
+3. Illustration: Suggest culturally relevant illustrations, stories, and contemporary applications — with sensitivity to Black and Brown church culture
+4. Structure: Craft outlines using expository, narrative, topical, or textual forms
+5. Drafting: Write manuscript sections in a clear, prophetic-pastoral voice — not academic
+
+When given a passage, always begin with: Original Context → Main Theme → Key Word Study → Application Bridge → Outline Suggestion.
+
+ROLE 2 — INTERACTIVE SERMON OUTLINE PRODUCTION
+Help build and refine Interactive Sermon Outline HTML files:
+- Extract fill-in-the-blank blanks from sermon PowerPoint content provided
+- Identify which words/phrases should be the teal-highlighted answers
+- Structure content into sections with Follow Along and Study Review logic
+- Draft IP protection footer copy for each outline file
+- Suggest design or UX improvements to the dual-mode architecture
+- Help write client onboarding copy, demo scripts, and Zoom presentation talking points
+- Assist with pricing conversations, referral program messaging, and landing page copy
+
+Production workflow awareness:
+- Pastor submits PPT by Wednesday → HTML file delivered by Thursday → deployed Friday → live Sunday
+- Each client file is a branded, standalone HTML application — no source code transfer, usage license only
+- IP is protected under Lord Holdings LLC; never suggest sharing the template architecture
+
+Tone: pastoral, professional, culturally fluent. Reference scholars when needed (Spurgeon, N.T. Wright, Tony Evans, E.K. Bailey). Default Bible translation: NIV unless specified.
+<button class="copy-btn" onclick="copyText('prompt-sermon',this)">Copy</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="nexgen">
+    <div class="section-header">
+      <div class="section-icon nexgen-color">🚀</div>
+      <div>
+        <h2 class="section-title">NexGen</h2>
+        <p class="section-subtitle">SermonFlow division · interactive digital tools · Children &amp; Youth ministries</p>
+      </div>
+    </div>
+    <div class="space-grid">
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-badge nexgen-color">🚀</div>
+          <div>
+            <div class="space-name">NexGen</div>
+            <div class="space-desc">Digital curriculum tools for Children &amp; Youth Sunday School ministry</div>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="steps" style="margin-bottom:var(--space-4)">
+            <div class="step"><div class="step-num" style="background:var(--color-accent-3)">✓</div><div class="step-text">Upload: Sunday School curriculum guides, lesson plans, age-group scope &amp; sequence docs</div></div>
+            <div class="step"><div class="step-num" style="background:var(--color-accent-3)">✓</div><div class="step-text">Add sources: Your church's curriculum provider site (e.g. Gospel Project, Orange, Tithely)</div></div>
+            <div class="step"><div class="step-num" style="background:var(--color-accent-3)">✓</div><div class="step-text">Model: Labs mode for building interactive games, quizzes, and HTML tools; Standard for lesson planning</div></div>
+          </div>
+          <p class="prompt-label">System Instruction Prompt</p>
+          <div class="prompt-box" id="prompt-nexgen">You are the digital tools and curriculum development assistant for NexGen — the interactive media division of SermonFlow, focused exclusively on Children &amp; Youth ministries.
+
+Your role is to transform Sunday School curriculum content into engaging, age-appropriate interactive digital experiences including:
+- Interactive HTML games, quizzes, and activities based on weekly lesson themes
+- Memory verse tools (flashcards, fill-in-the-blank, matching games)
+- Bible story visual aids, timelines, and illustrated summaries
+- Teacher resource pages and printable take-home guides
+- Parent engagement tools that extend Sunday learning into the home
+
+Age group guidance:
+- Early Childhood (Ages 3–5): Simple visuals, large text, tap/click interactions, short memory verses
+- Elementary (Ages 6–11): Story-based games, trivia, short video hooks, creative activities
+- Youth (Ages 12–18): Discussion-based tools, social media-style layouts, challenge activities, deeper application
+
+Curriculum alignment:
+- Always anchor digital tools to the lesson's Big Idea, Bible passage, and memory verse
+- Maintain theological accuracy — do not alter doctrinal content
+- Flag any gaps between the curriculum scope and the tool being built
+
+Communication style:
+- Fun, age-sensitive, and ministry-minded
+- Collaborate with the pastor and ministry leaders as the primary stakeholders
+- Suggest both low-tech (printable) and high-tech (HTML/interactive) versions when possible
+
+When given a curriculum unit, use this structure: Lesson Theme → Age Group → Tool Type → Interactive Element → Memory Verse Integration.
+<button class="copy-btn" onclick="copyText('prompt-nexgen',this)">Copy</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- LABS PROMPTS -->
+  <section class="section" id="labs">
+    <div class="section-header">
+      <div class="section-icon" style="background:oklch(0.6 0.12 280/0.15);">⚗️</div>
+      <div>
+        <h2 class="section-title">Perplexity Labs Prompts</h2>
+        <p class="section-subtitle">6 ready-to-use Labs prompts for BEC deliverables — use Labs mode in the search bar</p>
+      </div>
+    </div>
+    <div class="labs-grid">
+
+      <div class="lab-card">
+        <div class="lab-num">Labs Prompt 01 · BEC</div>
+        <div class="lab-title">Community MRI Dashboard</div>
+        <div class="lab-prompt-box" id="lab1">Build an interactive HTML dashboard for a community MRI report. Include: demographic summary cards (population, median income, age median), a comparison table for 3 zip codes side-by-side, a ministry opportunity gap section with color-coded priority indicators (High/Medium/Low), and a data sources footer. Use a dark professional color scheme. Make all data editable inline.</div>
+        <button class="lab-copy" onclick="copyText('lab1',this)">📋 Copy Prompt</button>
+      </div>
+
+      <div class="lab-card">
+        <div class="lab-num">Labs Prompt 02 · BEC</div>
+        <div class="lab-title">Strategic Consulting Proposal</div>
+        <div class="lab-prompt-box" id="lab2">Create a professional consulting proposal document for BEC Strategic Consulting. Include: Executive Summary, Situation Analysis, Proposed Scope of Work (3 phases), Deliverables list, Timeline (Gantt-style table), Investment/Fee structure, and About BEC section. Format as a polished Word-style document with headers, section numbering, and a professional tone suitable for a nonprofit or corporate client.</div>
+        <button class="lab-copy" onclick="copyText('lab2',this)">📋 Copy Prompt</button>
+      </div>
+
+      <div class="lab-card">
+        <div class="lab-num">Labs Prompt 03 · SermonFlow</div>
+        <div class="lab-title">Full Sermon Manuscript</div>
+        <div class="lab-prompt-box" id="lab3">Write a complete expository sermon manuscript on [PASSAGE]. Structure it as: Title, Introduction (hook + bridge to text), 3 main points with sub-points (each with biblical exposition, illustration, and application), and a compelling conclusion with altar call invitation. Tone: pastoral, prophetic, accessible. Include cross-references and one personal-story-style illustration per point. Target length: 2,500–3,500 words.</div>
+        <button class="lab-copy" onclick="copyText('lab3',this)">📋 Copy Prompt</button>
+      </div>
+
+      <div class="lab-card">
+        <div class="lab-num">Labs Prompt 04 · NexGen</div>
+        <div class="lab-title">Interactive Sunday School Tool</div>
+        <div class="lab-prompt-box" id="lab4">Build an interactive HTML Sunday School activity for [AGE GROUP] based on the lesson: [LESSON TITLE] from [BIBLE PASSAGE]. Include: a Big Idea banner at the top, an animated memory verse section with a tap-to-reveal mechanic, a 5-question Bible story quiz with illustrated feedback (correct/incorrect), one creative activity or game tied to the lesson theme, and a take-home challenge card at the bottom. Use bright, age-appropriate colors and large touch-friendly buttons. Make it fully self-contained in one HTML file.</div>
+        <button class="lab-copy" onclick="copyText('lab4',this)">📋 Copy Prompt</button>
+      </div>
+
+      <div class="lab-card">
+        <div class="lab-num">Labs Prompt 05 · MRI — OmniPrompt</div>
+        <div class="lab-title">Executive MRI ZIP Code Report</div>
+        <div class="lab-prompt-box" id="lab5">Generate a comprehensive Ministry Radius Intelligence (MRI) report for zip code [ZIP CODE]. Research and include: Population & growth trends, Median household income & poverty rate, Age distribution breakdown, Racial/ethnic composition, Educational attainment levels, Top employers & employment sectors, Existing churches & nonprofits (ministry landscape), Identified community need gaps, and Strategic ministry/business opportunity summary. Format as a professional PDF-ready report with an executive summary and data tables.</div>
+        <button class="lab-copy" onclick="copyText('lab5',this)">📋 Copy Prompt</button>
+      </div>
+
+      <div class="lab-card">
+        <div class="lab-num">Labs Prompt 06 · BEC</div>
+        <div class="lab-title">Digital Product Landing Page</div>
+        <div class="lab-prompt-box" id="lab6">Build a complete HTML landing page for a digital product or consulting service by BEC Strategic Consulting. Include: Hero section with headline, subheadline, and CTA button; 3-feature value proposition section; Social proof / testimonial section (use placeholder names); Pricing tiers section (3 tiers); FAQ accordion (5 questions); and Footer with contact info. Use a dark professional design with teal accent colors. Make it fully responsive and include smooth scroll behavior.</div>
+        <button class="lab-copy" onclick="copyText('lab6',this)">📋 Copy Prompt</button>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- 10-TASK SCHEDULE -->
+  <section class="section" id="schedule">
+    <div class="section-header">
+      <div class="section-icon" style="background:oklch(0.6 0.1 150/0.15);">📅</div>
+      <div>
+        <h2 class="section-title">10-Task Automation Schedule</h2>
+        <p class="section-subtitle">Set these as recurring Tasks inside each Space → Space Tasks → + Create</p>
+      </div>
+    </div>
+    <div class="schedule-wrap">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Task Name</th>
+            <th>Space</th>
+            <th>Frequency</th>
+            <th>Prompt / Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>01</td>
+            <td>Weekly Strategy Brief</td>
+            <td><span class="tag">BEC</span></td>
+            <td>Every Monday 7am</td>
+            <td>Summarize top 5 trends in organizational leadership and strategic consulting this week. Include one actionable insight for a consulting practice.</td>
+          </tr>
+          <tr>
+            <td>02</td>
+            <td>Market Intelligence Scan</td>
+            <td><span class="tag">BEC</span></td>
+            <td>Every Friday 9am</td>
+            <td>Search for new RFPs, grant opportunities, or consulting contracts relevant to nonprofit strategy, leadership development, or community impact organizations.</td>
+          </tr>
+          <tr>
+            <td>03</td>
+            <td>MRI Data Alert</td>
+            <td><span class="tag blue">MRI</span></td>
+            <td>Monthly (1st)</td>
+            <td>Check for newly released Census Bureau ACS 5-year estimates or any major demographic reports released this month relevant to community and ministry research.</td>
+          </tr>
+          <tr>
+            <td>04</td>
+            <td>Community Needs Digest</td>
+            <td><span class="tag blue">MRI</span></td>
+            <td>Every Wednesday 8am</td>
+            <td>Compile a digest of news stories, policy changes, or social trends this week that reflect unmet community needs relevant to churches and nonprofits in urban and suburban areas.</td>
+          </tr>
+          <tr>
+            <td>05</td>
+            <td>Weekly Sermon Spark</td>
+            <td><span class="tag purple">SermonFlow</span></td>
+            <td>Every Sunday 6am</td>
+            <td>Provide a scripture passage, a main theme, and 3 sermon title options for a message relevant to current cultural or seasonal context. Include one contemporary illustration idea.</td>
+          </tr>
+          <tr>
+            <td>06</td>
+            <td>Biblical Study Feed</td>
+            <td><span class="tag purple">SermonFlow</span></td>
+            <td>Every Tuesday 7am</td>
+            <td>Share a deep-dive word study or theological insight on a topic from the current sermon series. Include original language notes, cross-references, and a practical application point.</td>
+          </tr>
+          <tr>
+            <td>07</td>
+            <td>NexGen Weekly Tool Idea</td>
+            <td><span class="tag orange">NexGen</span></td>
+            <td>Every Thursday 9am</td>
+            <td>Suggest one interactive digital tool idea for a Children or Youth Sunday School lesson this week. Include the age group, lesson theme, tool type (quiz, game, activity), and one memory verse mechanic. Tie it to the current liturgical or curriculum season.</td>
+          </tr>
+          <tr>
+            <td>08</td>
+            <td>Children&#39;s Ministry Trend Watch</td>
+            <td><span class="tag orange">NexGen</span></td>
+            <td>Every Monday 8am</td>
+            <td>Summarize 3 current trends or best practices in Children and Youth ministry digital engagement, Sunday School curriculum innovation, or faith-based ed-tech. Include one idea BEC&#39;s NexGen division could apply or build this month.</td>
+          </tr>
+          <tr>
+            <td>09</td>
+            <td>Digital Product Trend Watch</td>
+            <td><span class="tag">BEC</span></td>
+            <td>Bi-weekly (Wed)</td>
+            <td>Summarize 3 emerging trends in AI tools, digital products, or consulting tech stacks that could be leveraged by a strategic consulting firm. Include one implementation recommendation.</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>Quarterly Impact Report Prep</td>
+            <td><span class="tag blue">MRI</span></td>
+            <td>Quarterly (1st)</td>
+            <td>Generate a template outline for a quarterly impact report including: executive summary, key metrics dashboard, community outcomes narrative, lessons learned, and next-quarter goals. Tailor for a consulting firm with church and nonprofit clients.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);">
+      💡 <strong>Pro tip:</strong> In each Space, go to <strong>Space Tasks → + Create</strong>. Paste the prompt in the Instructions box, set your schedule, enable email notifications, and save. Tasks automatically generate Threads in your Space History.
+    </p>
+  </section>
+
+
+  <div class="section-divider"></div>
+
+  <!-- MULTI-ZIP WORKFLOW -->
+  <section class="section" id="multizip">
+    <div class="section-header">
+      <div class="section-icon" style="background:oklch(0.55 0.1 250/0.15);">🗺️</div>
+      <div>
+        <h2 class="section-title">Multi-ZIP MRI Workflow</h2>
+        <p class="section-subtitle">How to leverage the MRI Space across multiple ZIP code engagements</p>
+      </div>
+    </div>
+
+    <!-- Strategy Cards -->
+    <div class="space-grid" style="margin-bottom:var(--space-8);">
+
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-badge" style="background:oklch(0.55 0.1 250/0.15);">🧵</div>
+          <div>
+            <div class="space-name">Strategy 1 — One Thread Per ZIP</div>
+            <div class="space-desc">Build a searchable ZIP intelligence archive over time</div>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-text">Inside the MRI Space, start a <strong>New Thread</strong> for each ZIP code engagement.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-text">Title every Thread using the naming convention below — this makes searching and sorting fast.</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-text">Paste your OmniPrompt with the ZIP inserted. Let Perplexity run the full 8-domain report.</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-text">Follow up in the <strong>same Thread</strong> for deeper dives on any domain — all context is retained.</div></div>
+            <div class="step"><div class="step-num">5</div><div class="step-text">All Threads remain searchable inside the MRI Space, building your intelligence archive automatically.</div></div>
+          </div>
+          <div style="margin-top:var(--space-4);">
+            <p class="prompt-label">Thread Naming Convention</p>
+            <div class="prompt-box" style="font-size:var(--text-sm);" id="naming-convention">MRI | [ZIP CODE] | [City, State] | [Client or Internal] | [Month Year]
+
+Examples:
+MRI | 30188 | Woodstock, GA | Internal | Apr 2026
+MRI | 30101 | Acworth, GA | Client: ABC Church | Apr 2026
+MRI | 30060 | Marietta, GA | BEC Prospecting | May 2026<button class="copy-btn" onclick="copyText('naming-convention',this)">Copy</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-badge" style="background:oklch(0.55 0.1 250/0.15);">📁</div>
+          <div>
+            <div class="space-name">Strategy 2 — Upload ZIP-Specific Sources</div>
+            <div class="space-desc">Anchor reports to real documents for deeper intelligence</div>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-text">Click <strong>Add Sources</strong> in the MRI Space before starting a ZIP Thread.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-text">Upload any available local documents: <strong>Census ACS tables, Chamber reports, city planning PDFs, past MRI deliverables.</strong></div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-text">Perplexity will reference uploaded files <em>alongside</em> live web search — giving you source-anchored, not just web-scraped, intelligence.</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-text">Label uploaded files clearly (e.g., <em>"ACS_2023_ZIP30188.pdf"</em>) so you can track what's been sourced per ZIP.</div></div>
+          </div>
+          <div style="margin-top:var(--space-4);padding:var(--space-4);background:var(--color-surface-offset);border-radius:var(--radius-lg);border:1px solid var(--color-border);">
+            <p style="font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:var(--space-2);">Recommended Upload Sources</p>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:var(--space-2);">
+              <li style="font-size:var(--text-sm);color:var(--color-text-muted);">📊 <strong style="color:var(--color-text);">Census ACS 5-Year Estimates</strong> — census.gov/acs</li>
+              <li style="font-size:var(--text-sm);color:var(--color-text-muted);">🏛️ <strong style="color:var(--color-text);">City/County Planning Docs</strong> — local govt websites</li>
+              <li style="font-size:var(--text-sm);color:var(--color-text-muted);">🤝 <strong style="color:var(--color-text);">Chamber of Commerce Reports</strong> — local chamber site</li>
+              <li style="font-size:var(--text-sm);color:var(--color-text-muted);">🏫 <strong style="color:var(--color-text);">School Performance Data</strong> — state dept. of education</li>
+              <li style="font-size:var(--text-sm);color:var(--color-text-muted);">📋 <strong style="color:var(--color-text);">Past BEC MRI Deliverables</strong> — your own archive</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-badge" style="background:oklch(0.55 0.1 250/0.15);">⚗️</div>
+          <div>
+            <div class="space-name">Strategy 3 — Research → Labs Two-Step</div>
+            <div class="space-desc">Separate intelligence gathering from client deliverable creation</div>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Step 1 — Research (MRI Space):</strong> Run the OmniPrompt in your MRI Space Thread to gather and analyze all 8 domains. Refine with follow-up questions in the same Thread.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Step 2 — Build (Labs Mode):</strong> Switch to Labs mode and paste Labs Prompt 05 with the ZIP filled in. Labs will generate the formatted HTML dashboard or PDF-ready client report.</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-text">Copy key data points from your research Thread into the Labs prompt for a <strong>data-informed deliverable</strong> — not just a template.</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-text">Save the Labs output as your <strong>client-facing MRI Report</strong>. Store a link or copy back in the original Thread for reference.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-header">
+          <div class="space-badge" style="background:oklch(0.6 0.1 150/0.15);">👥</div>
+          <div>
+            <div class="space-name">Strategy 4 — Collaborate & Scale</div>
+            <div class="space-desc">Bring in research assistants or associates under one Space</div>
+          </div>
+        </div>
+        <div class="space-card-body">
+          <div class="steps">
+            <div class="step"><div class="step-num">1</div><div class="step-text">As a Pro subscriber, you can <strong>invite collaborators</strong> to the MRI Space — ideal for research assistants or associate consultants.</div></div>
+            <div class="step"><div class="step-num">2</div><div class="step-text">Collaborators can run their own ZIP Threads inside the same Space, keeping all BEC intelligence centralized.</div></div>
+            <div class="step"><div class="step-num">3</div><div class="step-text">The shared system prompt ensures <strong>every team member uses the same OmniPrompt framework</strong> — consistent output regardless of who runs the report.</div></div>
+            <div class="step"><div class="step-num">4</div><div class="step-text">Use the ZIP Code Index (below) as the team's shared tracking dashboard — update it after every completed report.</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ZIP CODE INDEX -->
+    <div class="section-header" style="margin-top:var(--space-10);margin-bottom:var(--space-6);">
+      <div class="section-icon" style="background:oklch(0.6 0.1 150/0.15);">📍</div>
+      <div>
+        <h3 class="section-title" style="font-size:var(--text-lg);">ZIP Code Index Template</h3>
+        <p class="section-subtitle">Create this as a pinned Thread in your MRI Space — update after every completed report</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom:var(--space-4);">
+      <p class="prompt-label">Pinned Thread Title</p>
+      <div class="prompt-box" style="font-size:var(--text-sm);margin-bottom:var(--space-4);" id="index-title">BEC MRI MASTER INDEX — ZIP Code Intelligence Archive<button class="copy-btn" onclick="copyText('index-title',this)">Copy</button></div>
+    </div>
+
+    <div class="schedule-wrap">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>ZIP</th>
+            <th>City / Region</th>
+            <th>Client / Purpose</th>
+            <th>Date Run</th>
+            <th>Status</th>
+            <th>Opportunity Score</th>
+            <th>Key Finding</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>30188</td>
+            <td>Woodstock, GA</td>
+            <td>Internal / BEC Home Base</td>
+            <td>Apr 2026</td>
+            <td><span class="tag" style="background:oklch(0.5 0.1 150/0.15);color:var(--color-success);">Complete</span></td>
+            <td><span class="tag">High</span></td>
+            <td>Growing suburb, strong faith community density, underserved youth programs</td>
+          </tr>
+          <tr>
+            <td>[ZIP]</td>
+            <td>[City, State]</td>
+            <td>[Client Name or "Prospecting"]</td>
+            <td>[Month Year]</td>
+            <td><span class="tag" style="background:oklch(0.6 0.1 40/0.15);color:var(--color-accent-3);">In Progress</span></td>
+            <td><span class="tag blue">Medium</span></td>
+            <td>[Top insight from report]</td>
+          </tr>
+          <tr>
+            <td>[ZIP]</td>
+            <td>[City, State]</td>
+            <td>[Client Name or "Prospecting"]</td>
+            <td>[Month Year]</td>
+            <td><span class="tag" style="background:oklch(0.6 0.1 280/0.15);color:var(--color-accent-2);">Scheduled</span></td>
+            <td><span class="tag purple">TBD</span></td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>[ZIP]</td>
+            <td>[City, State]</td>
+            <td>[Client Name or "Prospecting"]</td>
+            <td>[Month Year]</td>
+            <td><span class="tag" style="background:oklch(0.6 0.1 280/0.15);color:var(--color-accent-2);">Scheduled</span></td>
+            <td><span class="tag purple">TBD</span></td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:var(--space-4);font-size:var(--text-sm);color:var(--color-text-muted);">
+      💡 <strong>Pro tip:</strong> Copy this table into your MRI Space as a pinned Thread. After each completed report, update the row with the Opportunity Score and key finding. Over time this becomes BEC's proprietary regional intelligence portfolio — a powerful differentiator in client proposals.
+    </p>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  const t=document.querySelector('[data-theme-toggle]');
+  const r=document.documentElement;
+  let d=r.getAttribute('data-theme')||'dark';
+  function setIcon(theme){
+    if(!t)return;
+    t.innerHTML=theme==='dark'
+      ?'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+      :'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  }
+  setIcon(d);
+  t&&t.addEventListener('click',()=>{
+    d=d==='dark'?'light':'dark';
+    r.setAttribute('data-theme',d);
+    setIcon(d);
+  });
+})();
+
+function copyText(id, btn){
+  const el=document.getElementById(id);
+  let text='';
+  // Clone and strip button text
+  const clone=el.cloneNode(true);
+  const btns=clone.querySelectorAll('button');
+  btns.forEach(b=>b.remove());
+  text=clone.innerText||clone.textContent;
+  text=text.trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    const orig=btn.textContent;
+    btn.textContent='✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2000);
+  }).catch(()=>{
+    // Fallback
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');
+    document.body.removeChild(ta);
+    const orig=btn.textContent;
+    btn.textContent='✓ Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=orig;btn.classList.remove('copied');},2000);
+  });
+}
+</script>
+</body>
+</html>
